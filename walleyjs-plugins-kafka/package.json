@@ -1,0 +1,29 @@
+{
+  "name": "@be-heroes/walleyjs-plugins-kafka",
+  "version": "0.0.1",
+  "description": "Plugins framework for cosmos-sdk web-components.",
+  "author": {
+    "name": "Tobias Andersen"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:be-heroes/walley-js.git"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@be-heroes/walleyjs-core": "^0.0.1",
+    "@microsoft/signalr": "^6.0.8",
+    "@types/node": "^18.7.1"
+  },
+  "devDependencies": {
+    "lit-analyzer": "^1.2.1",
+    "typescript": "^4.7.4"
+  }
+}
