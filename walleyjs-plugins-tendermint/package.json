@@ -1,7 +1,7 @@
 {
-  "name": "@zaradarbh/walleyjs-plugins-kafka",
-  "version": "0.0.2",
-  "description": "Kafka Event Bridge plugin for WalleryJS, a framework for cosmos-sdk web-components.",
+  "name": "@zaradarbh/walleyjs-plugins-tendermint",
+  "version": "0.0.1",
+  "description": "Tendermint Event Listener plugin for WalleryJS, a framework for cosmos-sdk web-components.",
   "author": {
     "name": "Tobias Andersen"
   },

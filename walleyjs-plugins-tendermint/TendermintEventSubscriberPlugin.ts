@@ -1,21 +1,21 @@
 import IPlugin from "@zaradarbh/walleyjs-core/lib/plugins/IPlugin";
 import IContext from "@zaradarbh/walleyjs-core/lib/context/IContext";
-import KafkaEventBridge from "./KafkaEventBridge";
-import KafkaEventBridgePluginOptions from "./KafkaEventBridgePluginOptions";
+import TendermintEventSubscriber from "./TendermintEventSubscriber";
+import TendermintEventSubscriberPluginOptions from "./TendermintEventSubscriberPluginOptions";
 
-export const pluginIdentifier: string = "KafkaEventBridgePlugin";
+export const pluginIdentifier: string = "TendermintEventSubscriberPlugin";
 
-export default class KafkaEventBridgePlugin implements IPlugin {
-    options: KafkaEventBridgePluginOptions;
+export default class TendermintEventSubscriberPlugin implements IPlugin {
+    options: TendermintEventSubscriberPluginOptions;
     identifier: string = pluginIdentifier;
 
-    constructor(options: KafkaEventBridgePluginOptions) {
+    constructor(options: TendermintEventSubscriberPluginOptions) {
         this.options = options;
     }
 
     initialize(context: IContext): Promise<any | void> {
         return new Promise<void>((resolve) => {
-            const eventBridge = new KafkaEventBridge(this.options);
+            const eventBridge = new TendermintEventSubscriber(this.options);
 
             if (context instanceof HTMLElement) {
                 this.options.domEventHooks?.forEach((eventName: string) => {
