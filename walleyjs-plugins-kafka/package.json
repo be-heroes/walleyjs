@@ -1,5 +1,5 @@
 {
-  "name": "@be-heroes/walleyjs-plugins-kafka",
+  "name": "@zaradarbh/walleyjs-plugins-kafka",
   "version": "0.0.1",
   "description": "Plugins framework for cosmos-sdk web-components.",
   "author": {
@@ -18,12 +18,12 @@
     "lib"
   ],
   "dependencies": {
-    "@be-heroes/walleyjs-core": "^0.0.1",
+    "@zaradarbh/walleyjs-core": "^0.0.2",
     "@microsoft/signalr": "^6.0.8",
     "@types/node": "^18.7.1"
   },
   "devDependencies": {
-    "lit-analyzer": "^1.2.1",
+    "lit-analyzer": "^0.0.6",
     "typescript": "^4.7.4"
   }
 }

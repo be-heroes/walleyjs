@@ -1,10 +1,19 @@
 import { LitElement } from "lit-element";
-import IPlugin from "./plugins/IPlugin";
 import IPluginLoader from "./plugins/IPluginLoader";
-import IMinionOptions from "./IMinionOptions";
+import IPlugin from "./plugins/IPlugin";
+import IContext from "./context/IContext";
+import MinionOptions from "./MinionOptions";
 
-export default abstract class Minion extends LitElement {
-    protected readonly options: IMinionOptions | undefined;
+export default abstract class Minion extends LitElement implements IContext {
+    protected readonly options: MinionOptions | undefined;
+    
+    get identifier(): string | undefined {
+        if (this.options !== undefined) {
+            return this.options.identifier;
+        }
+
+        return undefined;
+    }
 
     get plugins(): IPlugin[] | undefined {
         if (this.options !== undefined) {
@@ -14,15 +23,7 @@ export default abstract class Minion extends LitElement {
         return undefined;
     }
 
-    get identifier(): string | undefined {
-        if (this.options !== undefined) {
-            return this.options.identifier;
-        }
-
-        return undefined;
-    }
-
-    protected constructor(options?: IMinionOptions, loaders?: IPluginLoader[]) {
+    protected constructor(options?: MinionOptions, loaders?: IPluginLoader[]) {
         super();
 
         this.options = options;
@@ -39,6 +40,9 @@ export default abstract class Minion extends LitElement {
 
                 if (loader) {
                     loader.load(plugin, this);
+                }
+                else {
+                    console.warn(`No loader found for plugin ${plugin}`);
                 }
             });
         }

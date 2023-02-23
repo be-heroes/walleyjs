@@ -1,8 +1,11 @@
-interface IPlugin {
-    name: string;
-    options?: any;
+import IPluginOptions from "./IPluginOptions";
+import IContext from "../context/IContext";
 
-    initialize(context?: any): Promise<void>;
+interface IPlugin {
+    identifier: string;
+    options?: IPluginOptions;
+
+    initialize(context: IContext): Promise<any | void>;
 }
 
 export default IPlugin;

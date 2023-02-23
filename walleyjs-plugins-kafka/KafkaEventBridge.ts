@@ -1,7 +1,7 @@
-import IEvent from "@be-heroes/walleyjs-core/lib/events/IEvent";
-import EventCallback from "@be-heroes/walleyjs-core/lib/events/EventCallback";
-import IPublisher from "@be-heroes/walleyjs-core/lib/events/IPublisher";
-import ISubscriber from "@be-heroes/walleyjs-core/lib/events/ISubscriber";
+import IEvent from "@zaradarbh/walleyjs-core/lib/events/IEvent";
+import EventCallback from "@zaradarbh/walleyjs-core/lib/events/EventCallback";
+import IPublisher from "@zaradarbh/walleyjs-core/lib/events/IPublisher";
+import ISubscriber from "@zaradarbh/walleyjs-core/lib/events/ISubscriber";
 import KafkaEventBridgeOptions from "./KafkaEventBridgeOptions";
 import * as SignalR from "@microsoft/signalr";
 
@@ -10,12 +10,24 @@ export default class KafkaEventBridge implements IPublisher, ISubscriber, EventL
     private readonly options: KafkaEventBridgeOptions;
     private readonly client: SignalR.HubConnection;
     
+    get signalREndpoint(): string | undefined {
+        if (this.options !== undefined) {
+            return this.options.signalREndpoint;
+        }
+
+        return undefined;
+    }
+
     constructor(options: KafkaEventBridgeOptions) {
         this.options = options;
 
-        this.client = new SignalR.HubConnectionBuilder()
-            .withUrl(this.options.signalREndpoint)
-            .build();
+        var builder = new SignalR.HubConnectionBuilder();
+
+        if(this.signalREndpoint) {
+            builder.withUrl(this.signalREndpoint)
+        }
+
+        this.client = builder.build();
 
         this.client.on("ReceiveMessage", (data) => {
             this.callbacks.forEach((callback) => {
@@ -38,10 +50,12 @@ export default class KafkaEventBridge implements IPublisher, ISubscriber, EventL
         });
     }
 
-    subscribe(callback: EventCallback): boolean {
-        const currentCount = this.callbacks.length;
+    subscribe(callback: EventCallback): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {            
+            const currentCount = this.callbacks.length;
 
-        return this.callbacks.push(callback) > currentCount;
+            resolve(this.callbacks.push(callback) > currentCount);
+        });
     }
 
     handleEvent(domEvent: Event): void {

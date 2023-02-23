@@ -1,3 +1,5 @@
-export default class KafkaEventBridgeOptions {
-    signalREndpoint: string = "";
+import IOptions from "@zaradarbh/walleyjs-core/lib/options/IOptions";
+
+export default class KafkaEventBridgeOptions implements IOptions {
+    signalREndpoint?: string;
 }
