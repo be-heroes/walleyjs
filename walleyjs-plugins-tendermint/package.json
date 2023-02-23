@@ -1,7 +1,7 @@
 {
   "name": "@zaradarbh/walleyjs-plugins-tendermint",
-  "version": "0.0.1",
-  "description": "Tendermint Event Listener plugin for WalleryJS, a framework for cosmos-sdk web-components.",
+  "version": "0.0.3",
+  "description": "Tendermint Event Subscriber plugin for WalleryJS, a framework for cosmos-sdk web-components.",
   "author": {
     "name": "Tobias Andersen"
   },

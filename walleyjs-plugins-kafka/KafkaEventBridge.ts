@@ -9,33 +9,19 @@ export default class KafkaEventBridge implements IPublisher, ISubscriber, EventL
     private readonly callbacks: Array<EventCallback> = new Array<EventCallback>();
     private readonly options: KafkaEventBridgeOptions;
     private readonly client: SignalR.HubConnection;
-    
-    get signalREndpoint(): string | undefined {
-        if (this.options !== undefined) {
-            return this.options.signalREndpoint;
-        }
-
-        return undefined;
-    }
 
     constructor(options: KafkaEventBridgeOptions) {
         this.options = options;
-
-        var builder = new SignalR.HubConnectionBuilder();
-
-        if(this.signalREndpoint) {
-            builder.withUrl(this.signalREndpoint)
-        }
-
-        this.client = builder.build();
-
+        this.client = new SignalR.HubConnectionBuilder()
+                        .withUrl(this.options.signalREndpoint)
+                        .build();
+        
+        this.client.start().catch(err => console.log("SignalR.HubConnection error", err));
         this.client.on("ReceiveMessage", (data) => {
             this.callbacks.forEach((callback) => {
                 callback(data);
             });
         });
-
-        this.client.start().catch(err => console.log("signalr error", err));
     }
     
     publish(event: IEvent): Promise<boolean> {
@@ -68,7 +54,7 @@ export default class KafkaEventBridge implements IPublisher, ISubscriber, EventL
                     id: domEvent.type,
                     version: domEvent.timeStamp.toString(),
                     payload: domEvent.detail,
-                    source: domEvent.srcElement
+                    source: this
                 } as any);
             }
         }

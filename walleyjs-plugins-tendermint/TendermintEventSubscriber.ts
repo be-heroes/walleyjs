@@ -6,18 +6,40 @@ export default class TendermintEventSubscriber implements ISubscriber, EventList
     private readonly callbacks: Array<EventCallback> = new Array<EventCallback>();
     private readonly options: TendermintEventSubscriberOptions;
     
-    get tendermintEndpoint(): string | undefined {
-        if (this.options !== undefined) {
-            return this.options.tendermintEndpoint;
-        }
-
-        return undefined;
-    }
-
     constructor(options: TendermintEventSubscriberOptions) {
         this.options = options;
 
-        //TODO: Tendermint websocket client
+        const ws = new WebSocket(this.options.tendermintEndpoint);
+     
+        ws.onmessage = (event) => {
+            this.callbacks.forEach((callback) => {
+                callback(event.data);
+            });
+        }
+        
+        ws.onerror = (error) => {
+            console.log(`WebSocket error: ${error}`);
+        };
+
+        ws.onopen = () => {
+            console.log(`Tendermint WebSocket opened to node: ${this.options.tendermintEndpoint}`);
+        }
+
+        ws.onclose = () => {
+            console.log("WebSocket closed");
+        }
+
+        this.options.tendermintEventHooks.forEach((eventHook) => {
+            ws.send(JSON.stringify({
+                "jsonrpc": "2.0",
+                "method": "subscribe",
+                "id": 0,
+                "params": {
+                    "query": `tm.event='${eventHook}'`
+                }
+            }));
+        });
+
     }
 
     subscribe(callback: EventCallback): Promise<boolean> {
