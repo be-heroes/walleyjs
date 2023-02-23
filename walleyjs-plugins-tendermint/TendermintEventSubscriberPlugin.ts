@@ -14,16 +14,10 @@ export default class TendermintEventSubscriberPlugin implements IPlugin {
     }
 
     initialize(context: IContext): Promise<any | void> {
-        return new Promise<void>((resolve) => {
-            const eventBridge = new TendermintEventSubscriber(this.options);
+        return new Promise<TendermintEventSubscriber>((resolve) => {
+            const subscriber = new TendermintEventSubscriber(this.options, context);
 
-            if (context instanceof HTMLElement) {
-                this.options.domEventHooks?.forEach((eventName: string) => {
-                    context.addEventListener(eventName, eventBridge);
-                });
-            }
-
-            resolve();
+            resolve(subscriber);
         });
     }
 }

@@ -3,14 +3,17 @@ import EventCallback from "@zaradarbh/walleyjs-core/lib/events/EventCallback";
 import IPublisher from "@zaradarbh/walleyjs-core/lib/events/IPublisher";
 import ISubscriber from "@zaradarbh/walleyjs-core/lib/events/ISubscriber";
 import KafkaEventBridgeOptions from "./KafkaEventBridgeOptions";
+import IContext from "@zaradarbh/walleyjs-core/lib/context/IContext";
 import * as SignalR from "@microsoft/signalr";
 
 export default class KafkaEventBridge implements IPublisher, ISubscriber, EventListenerObject {
     private readonly callbacks: Array<EventCallback> = new Array<EventCallback>();
     private readonly options: KafkaEventBridgeOptions;
     private readonly client: SignalR.HubConnection;
+    private readonly context: IContext;
 
-    constructor(options: KafkaEventBridgeOptions) {
+    constructor(options: KafkaEventBridgeOptions, context: IContext) {
+        this.context = context;
         this.options = options;
         this.client = new SignalR.HubConnectionBuilder()
                         .withUrl(this.options.signalREndpoint)
@@ -37,10 +40,8 @@ export default class KafkaEventBridge implements IPublisher, ISubscriber, EventL
     }
 
     subscribe(callback: EventCallback): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {            
-            const currentCount = this.callbacks.length;
-
-            resolve(this.callbacks.push(callback) > currentCount);
+        return new Promise<boolean>((resolve) => {
+            resolve(this.callbacks.push(callback) > this.callbacks.length);
         });
     }
 
@@ -54,7 +55,7 @@ export default class KafkaEventBridge implements IPublisher, ISubscriber, EventL
                     id: domEvent.type,
                     version: domEvent.timeStamp.toString(),
                     payload: domEvent.detail,
-                    source: this
+                    source: this.context
                 } as any);
             }
         }

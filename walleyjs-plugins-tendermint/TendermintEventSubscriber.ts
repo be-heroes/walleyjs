@@ -1,12 +1,13 @@
 import EventCallback from "@zaradarbh/walleyjs-core/lib/events/EventCallback";
 import ISubscriber from "@zaradarbh/walleyjs-core/lib/events/ISubscriber";
+import IContext from "@zaradarbh/walleyjs-core/lib/context/IContext";
 import TendermintEventSubscriberOptions from "./TendermintEventSubscriberOptions";
 
 export default class TendermintEventSubscriber implements ISubscriber, EventListenerObject {
     private readonly callbacks: Array<EventCallback> = new Array<EventCallback>();
     private readonly options: TendermintEventSubscriberOptions;
     
-    constructor(options: TendermintEventSubscriberOptions) {
+    constructor(options: TendermintEventSubscriberOptions, context: IContext) {
         this.options = options;
 
         const ws = new WebSocket(this.options.tendermintEndpoint);
@@ -22,7 +23,7 @@ export default class TendermintEventSubscriber implements ISubscriber, EventList
         };
 
         ws.onopen = () => {
-            console.log(`Tendermint WebSocket opened to node: ${this.options.tendermintEndpoint}`);
+            console.log(`Tendermint WebSocket opened to node: ${this.options.tendermintEndpoint} for context: ${context}`);
         }
 
         ws.onclose = () => {
@@ -43,10 +44,8 @@ export default class TendermintEventSubscriber implements ISubscriber, EventList
     }
 
     subscribe(callback: EventCallback): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {            
-            const currentCount = this.callbacks.length;
-
-            resolve(this.callbacks.push(callback) > currentCount);
+        return new Promise<boolean>((resolve) => {
+            resolve(this.callbacks.push(callback) > this.callbacks.length);
         });
     }
 

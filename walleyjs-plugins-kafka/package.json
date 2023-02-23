@@ -1,6 +1,6 @@
 {
   "name": "@zaradarbh/walleyjs-plugins-kafka",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Kafka Event Bridge plugin for WalleryJS, a framework for cosmos-sdk web-components.",
   "author": {
     "name": "Tobias Andersen"

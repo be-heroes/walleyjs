@@ -15,7 +15,7 @@ export default class KafkaEventBridgePlugin implements IPlugin {
 
     initialize(context: IContext): Promise<any | void> {
         return new Promise<void>((resolve) => {
-            const eventBridge = new KafkaEventBridge(this.options);
+            const eventBridge = new KafkaEventBridge(this.options, context);
 
             if (context instanceof HTMLElement) {
                 this.options.domEventHooks?.forEach((eventName: string) => {
