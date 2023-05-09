@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git@github.com:be-heroes/walley-js.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "type": "module",
   "scripts": {
     "build": "tsc --build",
