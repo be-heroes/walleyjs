@@ -20,4 +20,10 @@ jobs:
                   registry-url: https://npm.pkg.github.com/
             - run: cd ./src/walleyjs-core && npm publish
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}                  
+            - run: cd ./src/walleyjs-plugins-kafka && npm publish
+              env:
+                NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            - run: cd ./src/walleyjs-plugins-tendermint && npm publish
+              env:
+                 NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -1,6 +1,6 @@
 {
-  "name": "@zaradarbh/walleyjs-plugins-tendermint",
-  "version": "0.0.5",
+  "name": "@be-heroes/walleyjs-plugins-tendermint",
+  "version": "0.0.1",
   "description": "Tendermint Event Subscriber plugin for WalleryJS, a framework for cosmos-sdk web-components.",
   "author": {
     "name": "Tobias Andersen"
@@ -8,7 +8,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:be-heroes/walley-js.git"
+    "url": "git+https://github.com/be-heroes/walley-js.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "type": "module",
   "scripts": {
