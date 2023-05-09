@@ -1,5 +1,5 @@
 {
-  "name": "@beheroes/walleyjs-core",
+  "name": "@be-heroes/walleyjs-core",
   "version": "0.0.1",
   "description": "Component framework for cosmos-sdk web-components.",
   "author": {
