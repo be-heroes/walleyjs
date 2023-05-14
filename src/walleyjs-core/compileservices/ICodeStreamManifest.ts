@@ -1,16 +1,17 @@
-﻿//TODO: Streamline with new architecture
-import {Guid} from "../primitives/Guid";
+﻿import {Guid} from "../primitives/Guid";
 
-/** ICodeStreamManifest provides a metadata container for ICodeStream objects that can help other compileservice members
-determine a codeStream objects source language (via moniker) and initialization arguments (via args). */
+/** ICodeStreamManifest provides a metadata container for ICodeStreams. */
 export interface ICodeStreamManifest
 {
-    /**Moniker references the ILanguageCodex used to encode a given codeStream. Symbol values are contained in the CompileServices namespace (Symbols.ts) */
+    /** Moniker references the ILanguageCodex used to encode a given CodeStream. Symbol values are contained in the CompileServices namespace (Symbols.ts) */
     moniker: symbol;
 
-    /**Unique GUID used to identify a manifest. */
+    /** Unique GUID used to identify a ICodeStream. */
     id: Guid;
 
-    /**Args passed to the ICodeRunner when initializing the WASM module container for a given codeStream */
-    args: any;
+    /** Headers used by the ICodeStream for initialization and verification */
+    headers: Record<string, string>[];
+    
+    /** Used to get the cryptographic signature for a given code stream */
+    GetSignature(): Promise<ArrayBuffer>
 }

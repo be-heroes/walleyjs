@@ -1,4 +1,4 @@
-﻿/** IDataProvider interface provides a contract for a promise based function that can return data "on-demand" thus allowing "lazy loading" of data. */
+﻿/** IDataProvider interface provides a contract for a promise based function that can return an ArrayBuffer for "lazy loading" of data. */
 export interface IDataProvider {
-    (): Promise<any>;
+    (): Promise<ArrayBuffer>;
 }
