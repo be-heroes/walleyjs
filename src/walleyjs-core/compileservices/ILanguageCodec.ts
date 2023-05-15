@@ -9,8 +9,8 @@ export interface ILanguageCodec {
     transpilationTargets?: Array<ILanguageCodec>;
 
     /** Encodes a codeStream into an ArrayBuffer or throws an error. */
-    encode(codeStream: ICodeStream): ArrayBuffer;
+    encode(codeStream: ICodeStream): Promise<ArrayBuffer>;
 
     /** Decode a byte[] array into a ICodeStream that supports this ILanguageCodex or throws an error. */
-    decode(data: ArrayBuffer): ICodeStream;
+    decode(data: ArrayBuffer): Promise<ICodeStream>;
 }

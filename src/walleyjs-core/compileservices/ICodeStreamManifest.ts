@@ -11,7 +11,4 @@ export interface ICodeStreamManifest
 
     /** Headers used by the ICodeStream for initialization and verification */
     headers: Record<string, string>[];
-    
-    /** Used to get the cryptographic signature for a given code stream */
-    GetSignature(): Promise<ArrayBuffer>
 }
